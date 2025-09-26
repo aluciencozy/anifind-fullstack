@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+* {
+  scroll-behavior: smooth;
+}
+
+html {
+  @apply hide-scrollbar;
+}
+
+body {
+  background-color: var(--color-bg);
+  font-family: var(--font-poppins);
+}
+
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+
+  --breakpoint-slg: 56rem;
+
+  --my-grid-cols: repeat(auto-fit, minmax(230px, 1fr));
+
+  --header-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+
+  --color-bg: #0c1115;
+  --color-bg-secondary: #11161a;
+  --color-primary: #3ac86a;
+  --color-secondary: #afe9c2;
+}
+
+@layer utilities {
+  .gradient-overlay {
+    background-image: linear-gradient(
+        to bottom,
+        transparent 80%,
+        var(--color-bg) 100%
+      ),
+      linear-gradient(to bottom, transparent 80%, var(--color-bg) 100%),
+      linear-gradient(#0c111500, #0c11158a);
+  }
+
+  .gradient-overlay-sm {
+    background-image: linear-gradient(
+        to bottom,
+        transparent 80%,
+        var(--color-bg) 100%
+      ),
+      linear-gradient(to bottom, transparent 95%, var(--color-bg) 100%),
+      linear-gradient(to left, transparent 95%, var(--color-bg)),
+      linear-gradient(to left, transparent 80%, var(--color-bg)),
+      linear-gradient(#0c111500, #0c11158a);
+  }
+}
+
+@utility hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
