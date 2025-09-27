@@ -1,17 +1,20 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-// This line loads the environment variables from your .env file
+import watchlistsRouter from './routes/watchlists.routes.js';
+import authRouter from './routes/auth.routes.js';
+
 dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT || 5001;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// This is a simple test route to confirm the server is running
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
+app.use('/api/v1/watchlist', watchlistsRouter);
+app.use('/api/v1/auth', authRouter);
+
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
