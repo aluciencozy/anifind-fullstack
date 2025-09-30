@@ -1,31 +1,31 @@
-import User from '../models/user.model.js'
+import User from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { JWT_SECRET, JWT_EXPIRES_IN } from '../config/env.js';
 import CustomError from '../utils/CustomError.js';
 
 const signUp = async (req, res, next) => {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      return next(new CustomError('Please provide all required fields', 400));
-    }
+  if (!name || !email || !password) {
+    return next(new CustomError('Please provide all required fields', 400));
+  }
 
-    const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ email });
 
-    if (existingUser) {
-      return next(new CustomError('User already exists', 409));
-    }
+  if (existingUser) {
+    return next(new CustomError('User already exists', 409));
+  }
 
-    const newUser = await User.create({ name, email, password });
+  const newUser = await User.create({ name, email, password });
 
-    const token = jwt.sign({ id: newUser._id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+  const token = jwt.sign({ id: newUser._id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 
-    res.status(201).json({
-      success: true,
-      message: 'User created successfully',
-      data: { user: newUser, token }
-    });
+  res.status(201).json({
+    success: true,
+    message: 'User created successfully',
+    data: { user: newUser, token },
+  });
 };
 
 const signIn = async (req, res, next) => {
@@ -35,7 +35,7 @@ const signIn = async (req, res, next) => {
     return next(new CustomError('Please provide all required fields', 400));
   }
 
-  const user = await User.findOne({ email}).select('+password');
+  const user = await User.findOne({ email }).select('+password');
 
   if (!user) {
     return next(new CustomError('Invalid credentials', 404));
@@ -55,7 +55,7 @@ const signIn = async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'User signed in successfully',
-    data: { user, token }
+    data: { user, token },
   });
 };
 

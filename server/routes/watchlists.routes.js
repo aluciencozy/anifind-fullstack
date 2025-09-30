@@ -1,4 +1,10 @@
-import { getWatchlist, addWatchlistItem, getWatchlistItem, updateWatchlistItem, deleteWatchlistItem } from '../controllers/watchlists.controllers.js';
+import {
+  getWatchlist,
+  addWatchlistItem,
+  getWatchlistItem,
+  updateWatchlistItem,
+  deleteWatchlistItem,
+} from '../controllers/watchlists.controllers.js';
 
 import express from 'express';
 

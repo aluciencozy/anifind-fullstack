@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 
 import watchlistsRouter from './routes/watchlists.routes.js';
 import authRouter from './routes/auth.routes.js';
-import connectToDB from './database/mongodb.js'
-import errorMiddleware from './middlewares/error.middleware.js'
+import connectToDB from './database/mongodb.js';
+import errorMiddleware from './middlewares/error.middleware.js';
 
 dotenv.config();
 

@@ -34,4 +34,10 @@ const deleteWatchlistItem = (req, res) => {
   res.send('DELETE watchlist');
 };
 
-export { getWatchlist, addWatchlistItem, deleteWatchlistItem, getWatchlistItem, updateWatchlistItem }
+export {
+  getWatchlist,
+  addWatchlistItem,
+  deleteWatchlistItem,
+  getWatchlistItem,
+  updateWatchlistItem,
+};
