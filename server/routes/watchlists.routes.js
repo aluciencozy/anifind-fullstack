@@ -1,7 +1,6 @@
 import {
   getWatchlist,
   addWatchlistItem,
-  getWatchlistItem,
   updateWatchlistItem,
   deleteWatchlistItem,
 } from '../controllers/watchlists.controllers.js';
@@ -15,7 +14,6 @@ watchlistsRouter.use(authMiddleware);
 
 watchlistsRouter.get('/', getWatchlist);
 watchlistsRouter.post('/', addWatchlistItem);
-watchlistsRouter.get('/:id', getWatchlistItem);
 watchlistsRouter.put('/:id', updateWatchlistItem);
 watchlistsRouter.delete('/:id', deleteWatchlistItem);
 
