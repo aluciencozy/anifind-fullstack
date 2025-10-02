@@ -3,7 +3,7 @@ import CustomError from '../utils/CustomError.js';
 
 const getWatchlist = async (req, res) => {
   const watchlist = await Watchlist.find({ user: req.user._id }).sort('-createdAt');
-  res.status(200).json({ success: true, data: { watchlist, count: watchlist.length }});
+  res.status(200).json({ success: true, data: { watchlist, count: watchlist.length } });
 };
 
 const addWatchlistItem = async (req, res, next) => {
@@ -40,9 +40,4 @@ const deleteWatchlistItem = async (req, res, next) => {
   res.status(204).send();
 };
 
-export {
-  getWatchlist,
-  addWatchlistItem,
-  deleteWatchlistItem,
-  updateWatchlistItem,
-};
+export { getWatchlist, addWatchlistItem, deleteWatchlistItem, updateWatchlistItem };

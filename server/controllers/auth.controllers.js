@@ -65,6 +65,6 @@ const signOut = (req, res) => {
 
 const getProfile = (req, res) => {
   res.status(200).json({ success: true, data: req.user });
-}
+};
 
 export { signUp, signIn, signOut, getProfile };
