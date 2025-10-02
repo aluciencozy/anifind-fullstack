@@ -3,12 +3,17 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { JWT_SECRET, JWT_EXPIRES_IN } from '../config/env.js';
 import CustomError from '../utils/CustomError.js';
+import validator from 'validator';
 
 const signUp = async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { username: name, email, password } = req.body;
 
   if (!name || !email || !password) {
     return next(new CustomError('Please provide all required fields', 400));
+  }
+
+  if (!validator.default.isEmail(email)) {
+    return next(new CustomError('Please provide a valid email address', 400));
   }
 
   const existingUser = await User.findOne({ email });
