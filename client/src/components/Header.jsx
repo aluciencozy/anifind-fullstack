@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const signOut = () => {
+    localStorage.removeItem('token');
+    navigate('/sign-in');
+  }
+
   return (
     <div className="text-white flex justify-between items-center font-bold text-xl sm:text-2xl md:text-3xl">
       <h2 className="cursor-pointer">
@@ -22,6 +30,9 @@ const Header = () => {
         <Link to="/sign-in">
           <i className="bx bx-user cursor-pointer" />
         </Link>
+        <button onClick={signOut}>
+          <i className="bx bx-log-out cursor-pointer" />
+        </button>
       </div>
     </div>
   );

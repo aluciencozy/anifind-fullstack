@@ -1,5 +1,23 @@
+import axios from "axios";
+
 const Popular = ({ currentSlide, topAnimeList }) => {
   const transformSlideX = `${currentSlide * -100}%`;
+
+  const addToWatchList = async (animeId) => {
+    try {
+      const response = await axios.post('http://localhost:5001/api/v1/watchlists', {
+        animeId: animeId
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      console.log(response);
+    } catch (error) {
+      console.error(`Error adding to watch list: ${error}`);
+    }
+  }
 
   return (
     <div className="flex justify-center items-center w-full overflow-hidden">
@@ -43,7 +61,7 @@ const Popular = ({ currentSlide, topAnimeList }) => {
                 className="line-clamp-2 invisible absolute sm:visible sm:relative mt-6 md:mt-6.5 text-sm lg:text-[15px] 2xl:text-lg"
                 dangerouslySetInnerHTML={{ __html: anime.description }}
               ></p>
-              <button className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer">
+              <button onClick={() => addToWatchList(anime.id)} className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer">
                 <i className="fas fa-bookmark"></i> Watch List
               </button>
             </div>

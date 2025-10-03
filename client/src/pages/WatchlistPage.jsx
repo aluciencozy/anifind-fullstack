@@ -37,7 +37,7 @@ const WatchlistPage = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.get('http://localhost:5001/api/v1/watchlist', {
+      const response = await axios.get('http://localhost:5001/api/v1/watchlists', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -62,7 +62,14 @@ const WatchlistPage = () => {
         }
       });
 
-      setWatchlist(response2.data.data.Page.media);
+      const animeDetailsList = response2.data.data.Page.media;
+
+      const mergedWatchList = watchlistItems.map((item) => {
+        const animeDetails = animeDetailsList.find((anime) => anime.id === item.animeId);
+        return { ...item, ...animeDetails };
+      })
+
+      setWatchlist(mergedWatchList);
     } catch (error) {
       console.error(`Error fetching watchlist: ${error}`);
       setErrorMessage('Error fetching watchlist. Please try again later.');
@@ -70,6 +77,23 @@ const WatchlistPage = () => {
       setIsLoading(false);
     }
   };
+
+  const deleteFromWatchlist = async (dbId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5001/api/v1/watchlists/${dbId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      await fetchWatchlist();
+      console.log(response); // TODO: CHECK IF 204 IS RETURNED LATER
+    } catch (error) {
+      console.log('Error deleting from watchlist: ', error);
+    }
+  }
+
+  // TODO: ADD UPDATE TO WATCHLIST FUNCTIONALITY
 
   useEffect(() => {
     fetchWatchlist();
@@ -90,19 +114,23 @@ const WatchlistPage = () => {
           watchlist.map((anime) => {
             if (!anime.episodes) return null;
             return (
-              <AnimeCard
-                key={anime.id}
-                title={
-                  anime.title.english
-                    ? anime.title.english
-                    : anime.title.romaji
-                }
-                rating={anime.averageScore}
-                image={anime.coverImage.large}
-                format={anime.format}
-                episodes={anime.episodes}
-                duration={anime.duration}
-              />
+              <div key={anime.id} className="flex flex-col gap-y-5 h-full">
+                <AnimeCard
+                  title={
+                    anime.title.english
+                      ? anime.title.english
+                      : anime.title.romaji
+                  }
+                  rating={anime.averageScore}
+                  image={anime.coverImage.large}
+                  format={anime.format}
+                  episodes={anime.episodes}
+                  duration={anime.duration}
+                />
+                <button onClick={() => deleteFromWatchlist(anime._id)} className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer">
+                  <i className="fas fa-bookmark"></i> Watch List
+                </button>
+              </div>
             );
           })
         )}
