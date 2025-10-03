@@ -30,6 +30,8 @@ const WatchlistPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const statusOptions = ['Plan to Watch', 'Watching', 'Completed', 'Dropped'];
+
   const fetchWatchlist = async () => {
     setIsLoading(true);
     setErrorMessage('');
@@ -70,6 +72,7 @@ const WatchlistPage = () => {
       })
 
       setWatchlist(mergedWatchList);
+      console.log(mergedWatchList);
     } catch (error) {
       console.error(`Error fetching watchlist: ${error}`);
       setErrorMessage('Error fetching watchlist. Please try again later.');
@@ -84,16 +87,31 @@ const WatchlistPage = () => {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-      })
+      });
 
       await fetchWatchlist();
       console.log(response); // TODO: CHECK IF 204 IS RETURNED LATER
     } catch (error) {
       console.log('Error deleting from watchlist: ', error);
     }
-  }
+  };
 
-  // TODO: ADD UPDATE TO WATCHLIST FUNCTIONALITY
+  const updateWatchlist = async (dbId, status) => {
+    try {
+      const response = await axios.put(`http://localhost:5001/api/v1/watchlists/${dbId}`,
+        { status },
+        {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      await fetchWatchlist();
+      console.log(response); // TODO: CHECK IF 201 CREATED
+    } catch (e) {
+      console.log('Error updating watchlist: ', e);
+    }
+  };
 
   useEffect(() => {
     fetchWatchlist();
@@ -127,9 +145,19 @@ const WatchlistPage = () => {
                   episodes={anime.episodes}
                   duration={anime.duration}
                 />
+                {/* delete button */}
                 <button onClick={() => deleteFromWatchlist(anime._id)} className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer">
                   <i className="fas fa-bookmark"></i> Watch List
                 </button>
+                {/* status section */}
+                <div className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer">
+                  <div>{anime.status}</div>
+                  {statusOptions.map((status) => (
+                    <div key={status} onClick={() => updateWatchlist(anime._id, status)} className="flex items-center gap-x-2">
+                      {status}
+                    </div>
+                  ))}
+                </div>
               </div>
             );
           })
