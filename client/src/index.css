@@ -51,6 +51,14 @@ body {
       linear-gradient(to left, transparent 80%, var(--color-bg)),
       linear-gradient(#0c111500, #0c11158a);
   }
+
+  .label-form {
+      @apply text-lg font-semibold tracking-wide absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-300;
+  }
+
+  .input-form {
+    @apply bg-(--color-bg) relative border-(--color-primary) shadow-sm outline-0 w-full px-4 pt-5 pb-1 transition-all duration-300;
+  }
 }
 
 @utility hide-scrollbar {
