@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import GridMotion from '../components/GridMotion.jsx';
+
+const items = [
+  <div key='jsx-item-1'></div>,
+];
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -8,6 +13,7 @@ const SignUpPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [formError, setFormError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,12 +41,17 @@ const SignUpPage = () => {
 
       navigate('/');
     } catch (error) {
-      console.error('Error signing up:', error);
+      const message = error.response?.data?.error || 'An unexpected server error occurred';
+
+      console.error('Error signing in:', error);
+      setFormError(message);
     }
   }
 
   return (
     <main className="w-full h-screen flex justify-center items-center text-white">
+      <GridMotion items={items} />
+      {formError && <p className="absolute left-1/2 -translate-x-1/2 top-[15%] text-red-400 font-bold text-2xl">{formError}</p> }
       <div className="flex flex-col items-center bg-(--color-bg-secondary)/60 h-[500px] w-[500px] shadow-lg rounded-sm p-12">
         <div className="relative">
           <h1 className="text-3xl font-bold mb-5 text-shadow-lg after:h-0.5 after:w-[180%] after:absolute after:bottom-2 after:left-1/2 after:-translate-x-1/2 after:bg-(--color-primary) after:shadow-xl">
