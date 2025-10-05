@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios';
 import GridMotion from '../components/GridMotion.jsx';
+import AuthContext from '../context/AuthContext.jsx';
 
 const items = [
   <div key='jsx-item-1'></div>,
@@ -9,6 +9,7 @@ const items = [
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const { signUp } = useContext(AuthContext);
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -28,22 +29,13 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormError('');
 
     try {
-      const response = await axios.post('http://localhost:5001/api/v1/auth/sign-up', { username, email, password }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      const token = response.data.data.token;
-      localStorage.setItem('token', token);
-
+      await signUp(username, email, password);
       navigate('/');
     } catch (error) {
-      const message = error.response?.data?.error || 'An unexpected server error occurred';
-
-      console.error('Error signing in:', error);
+      const message = error.response?.data?.error || 'Failed to sign up. Please try again later.';
       setFormError(message);
     }
   }
@@ -52,7 +44,7 @@ const SignUpPage = () => {
     <main className="w-full h-screen flex justify-center items-center text-white">
       <GridMotion items={items} />
       {formError && <p className="absolute left-1/2 -translate-x-1/2 top-[15%] text-red-400 font-bold text-2xl">{formError}</p> }
-      <div className="flex flex-col items-center bg-(--color-bg-secondary)/60 h-[500px] w-[500px] shadow-lg rounded-sm p-12">
+      <div className="flex flex-col items-center bg-(--color-bg-secondary)/60 h-[450px] w-[90%] sm:h-[500px] sm:w-[500px] shadow-lg rounded-sm md:p-12 sm:p-9 p-7">
         <div className="relative">
           <h1 className="text-3xl font-bold mb-5 text-shadow-lg after:h-0.5 after:w-[180%] after:absolute after:bottom-2 after:left-1/2 after:-translate-x-1/2 after:bg-(--color-primary) after:shadow-xl">
             <span className="bg-clip-text text-transparent bg-linear-to-r from-(--color-secondary) to-(--color-primary)">
@@ -63,11 +55,11 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit} className="h-full w-full flex flex-col gap-y-5 justify-center">
           <div className="relative flex flex-col w-full after:w-full after:h-0.5 after:bg-(--color-primary) after:absolute after:bottom-0 after:left-0 after:transition-all after:duration-300 after:content-[''] after:scale-x-0 after:origin-center focus-within:after:scale-x-100">
             <input type="text" id="username" name="username" value={username} placeholder=" " onChange={handleChange} required className="input-form peer focus:outline-none" />
-            <label htmlFor="username" className="label-form peer-placeholder-shown:scale-100 peer-focus:scale-60 peer-focus:-translate-y-7 peer-focus:translate-x-[-20%] peer-[:not(:placeholder-shown)]:scale-60 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:translate-x-[-20%] peer-focus:text-gray-500">Username</label>
+            <label htmlFor="username" className="label-form peer-placeholder-shown:scale-100 peer-focus:scale-60 peer-focus:-translate-y-7 peer-focus:translate-x-[-20%] peer-[:not(:placeholder-shown)]:scale-60 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:translate-x-[-20%] peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-gray-500">Username</label>
           </div>
           <div className="relative flex flex-col w-full after:w-full after:h-0.5 after:bg-(--color-primary) after:absolute after:bottom-0 after:left-0 after:transition-all after:duration-300 after:content-[''] after:scale-x-0 after:origin-center focus-within:after:scale-x-100">
             <input type="email" id="email" name="email" value={email} placeholder=" " onChange={handleChange} required className="input-form peer focus:outline-none" />
-            <label htmlFor="email" className="label-form peer-placeholder-shown:scale-100 peer-focus:scale-60 peer-focus:-translate-y-7 peer-focus:translate-x-[-20%] peer-[:not(:placeholder-shown)]:scale-60 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:translate-x-[-20%] peer-focus:text-gray-500">Email</label>
+            <label htmlFor="email" className="label-form peer-placeholder-shown:scale-100 peer-focus:scale-60 peer-focus:-translate-y-7 peer-focus:translate-x-[-20%] peer-[:not(:placeholder-shown)]:scale-60 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:translate-x-[-20%] peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-gray-500">Email</label>
           </div>
           <div className="relative flex flex-col w-full after:w-full after:h-0.5 after:bg-(--color-primary) after:absolute after:bottom-0 after:left-0 after:transition-all after:duration-300 after:content-[''] after:scale-x-0 after:origin-center focus-within:after:scale-x-100">
             <input type="password" id="password" name="password" value={password} placeholder=" " onChange={handleChange} required className="peer input-form focus:outline-none" />
