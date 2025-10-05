@@ -33,8 +33,6 @@ const WatchlistPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const statusOptions = ['Plan to Watch', 'Watching', 'Completed', 'Dropped'];
-
   const fetchWatchlist = async () => {
     setIsLoading(true);
     setErrorMessage('');
@@ -99,10 +97,10 @@ const WatchlistPage = () => {
     }
   };
 
-  const updateWatchlist = async (dbId, status) => {
+  const updateWatchlist = async (dbId, { status, rating }) => {
     try {
       const response = await axios.put(`http://localhost:5001/api/v1/watchlists/${dbId}`,
-        { status },
+        { status, rating },
         {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

@@ -1,14 +1,69 @@
-import { useState, useRef } from 'react'
+import { useState, useRef } from 'react';
 
 const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
   const dialogRef = useRef(null);
-
   const openModal = () => {
     dialogRef.current.showModal();
   };
-
   const closeModal = () => {
     dialogRef.current.close();
+  };
+
+  const statusOptions = ['Watching', 'Completed', 'Dropped', 'Plan to Watch'];
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState(anime.status);
+  const [rating, setRating] = useState(anime.rating.toString());
+
+  const handleStatusClick = (option) => {
+    setIsOpen(false);
+    setStatus(option);
+  };
+
+  const handleIncrement = () => {
+    setRating((prevRating) => {
+      const currentValue = parseFloat(prevRating) || 0;
+      const newValue = currentValue + 0.5;
+      return Math.min(10, newValue);
+    });
+  };
+
+  const handleDecrement = () => {
+    setRating((prevRating) => {
+      const currentValue = parseFloat(prevRating) || 0;
+      const newValue = currentValue - 0.5;
+      return Math.max(0, newValue);
+    });
+  };
+
+  const handleRatingChange = (e) => {
+    const value = e.target.value;
+
+    if (value === '') {
+      setRating('');
+    } else {
+      setRating(parseFloat(value));
+    }
+  };
+
+  const handleBlur = () => {
+    let numericValue = parseFloat(rating);
+
+    if (isNaN(numericValue)) {
+      numericValue = 0;
+    }
+
+    const clampedValue = Math.max(0, Math.min(10, numericValue));
+
+    setRating(clampedValue);
+  };
+
+  const handleSave = () => {
+    updateWatchlist(anime._id, { status, rating });
+  };
+
+  const handleDelete = () => {
+    deleteFromWatchlist(anime._id);
   };
 
   return (
@@ -41,7 +96,7 @@ const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
       </div>
 
       {/*  Dialog/Modal */}
-      <dialog ref={dialogRef} className="text-white absolute top-1/2 left-1/2 w-[700px] h-[500px] transform -translate-x-1/2 -translate-y-1/2 bg-(--color-bg-secondary) rounded-sm shadow-(--modal-shadow)">
+      <dialog ref={dialogRef} className="text-white text-lg absolute top-1/2 left-1/2 w-[700px] h-[500px] transform -translate-x-1/2 -translate-y-1/2 bg-(--color-bg-secondary) rounded-sm shadow-(--modal-shadow) overflow-hidden">
 
         {/* Modal header */}
         <div className="w-full absolute">
@@ -50,11 +105,12 @@ const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
               <i className="bx bx-x text-2xl text-white cursor-pointer" onClick={closeModal}></i>
             </button>
             <div className="absolute inset-0 w-full h-full bg-(--color-bg-secondary) opacity-75" />
-            <img src={anime.bannerImage} alt={anime.title.english} className="w-full h-full object-cover" />
+            {anime.bannerImage
+              ? <img src={anime.bannerImage} alt={anime.title.english} className="w-full h-full object-cover" />
+              : <div className="w-full h-full bg-(--color-bg) opacity-75" />
+            }
           </div>
         </div>
-
-        {/* Modal body */}
         <div className="w-full p-10 relative">
           <div className="flex items-center gap-x-4">
             <div className="w-[100px] h-[150px] cursor-pointer relative rounded-md shadow-lg">
@@ -65,9 +121,54 @@ const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
             </div>
           </div>
         </div>
-      {/*  STATUS AND RATING SECTION HERE */}
+
+        {/* Modal body */}
+        <div className="w-full px-10 flex">
+
+          {/* Status */}
+          <div className="w-full">
+            <p className="text-sm text-gray-400 mb-2">Status</p>
+            <div className="relative text-base w-52 text-gray-200">
+              <button onClick={() => setIsOpen(!isOpen)} className="cursor-pointer w-full bg-(--color-bg) flex justify-between items-center px-4 py-2 rounded-sm shadow-lg text-sm">
+                <span>{status}</span>
+                <span className={`${isOpen ? '-rotate-180' : ''} scale-125 transition-all duration-300`}><i
+                  className="bx bx-chevron-down text-lg text-gray-300"></i></span>
+              </button>
+              <div
+                className={`mt-2 absolute top-full left-0 bg-(--color-bg) shadow-lg rounded-md z-10 overflow-hidden transition-all duration-350 ease-in-out flex flex-col gap-y-1 w-full ${isOpen ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                {statusOptions.map((option) => (
+                  <div key={option} onClick={() => handleStatusClick(option)} className={`cursor-pointer w-full bg-(--color-bg) flex items-center px-4 py-2 rounded-sm text-sm ${option === status ? 'text-(--color-primary)' : ''}`}>{option}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Rating */}
+          <div className="w-full">
+            <p className="text-sm text-gray-400 mb-2">Rating</p>
+            <div className="relative w-52">
+              <input type="number" id="rating" name="rating" min="0" max="10" step="0.5" placeholder=" " value={rating} onChange={(e) => handleRatingChange(e)} onBlur={handleBlur} className="w-full bg-(--color-bg) text-sm text-gray-200 px-4 py-2 rounded-sm shadow-lg outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none "
+              />
+              <div className="absolute top-1/2 right-3 -translate-y-1/2 flex flex-col">
+                <i onClick={handleIncrement} className="bx bx-chevron-up text-lg text-gray-300 cursor-pointer"></i>
+                <i onClick={handleDecrement} className="bx bx-chevron-down text-lg text-gray-300 cursor-pointer"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Delete and Save Buttons */}
+        <div className="absolute bottom-0 left-0 w-full text-sm flex gap-x-10 items-center justify-end p-10">
+          <button onClick={handleDelete} className="cursor-pointer bg-red-400/80 flex justify-between items-center px-4 py-2 rounded-sm shadow-lg text-sm">
+            Delete
+          </button>
+          <button onClick={handleSave} className="cursor-pointer bg-(--color-primary)/80 flex justify-between items-center px-4 py-2 rounded-sm shadow-lg text-sm">
+            Save
+          </button>
+        </div>
       </dialog>
     </div>
-  )
-}
+  );
+};
+
 export default WatchlistCard

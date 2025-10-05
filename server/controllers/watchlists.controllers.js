@@ -19,12 +19,12 @@ const addWatchlistItem = async (req, res, next) => {
 };
 
 const updateWatchlistItem = async (req, res, next) => {
-  const { status } = req.body;
+  const { status, rating } = req.body;
 
   const updatedItem = await Watchlist.findOneAndUpdate(
     { _id: req.params.id, user: req.user._id },
-    { status },
-    { new: true }
+    { status, rating },
+    { new: true, runValidators: true }
   );
 
   if (!updatedItem) return next(new CustomError(`Item not found with id ${req.params.id}`, 404));

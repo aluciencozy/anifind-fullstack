@@ -16,6 +16,12 @@ const watchlistSchema = new mongoose.Schema({
     enum: ['Plan to Watch', 'Watching', 'Completed', 'Dropped'],
     default: 'Plan to Watch',
   },
+  rating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 10,
+  },
 }, { timestamps: true });
 
 const Watchlist = mongoose.model('Watchlist', watchlistSchema);
