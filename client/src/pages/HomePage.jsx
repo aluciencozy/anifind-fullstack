@@ -21,7 +21,8 @@ const searchQuery = `
         episodes
         duration
         coverImage {
-          large
+          large,
+          extraLarge
         }
       }
     }
@@ -164,7 +165,7 @@ const HomePage = () => {
                       : anime.title.romaji
                   }
                   rating={anime.averageScore}
-                  image={anime.coverImage.large}
+                  image={anime.coverImage.extraLarge}
                   format={anime.format}
                   episodes={anime.episodes}
                   duration={anime.duration}

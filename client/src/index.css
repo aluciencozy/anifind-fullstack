@@ -13,6 +13,10 @@ body {
   font-family: var(--font-poppins);
 }
 
+dialog::backdrop {
+  @apply bg-black/50;
+}
+
 @theme {
   --font-poppins: "Poppins", sans-serif;
 
@@ -22,11 +26,13 @@ body {
 
   --header-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
     0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  --modal-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 
   --color-bg: #0c1115;
   --color-bg-secondary: #11161a;
   --color-primary: #3ac86a;
   --color-secondary: #afe9c2;
+  --color-hover: #181d21;
 }
 
 @layer utilities {
