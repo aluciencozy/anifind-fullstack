@@ -39,7 +39,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <main className="w-full h-screen flex justify-center items-center text-white">
+    <main className="w-full h-screen flex justify-center items-center -mt-[30px] text-white">
       <GridMotion items={items} />
       {formError && (
         <p className="absolute left-1/2 -translate-x-1/2 top-[15%] text-red-400 font-bold text-2xl">

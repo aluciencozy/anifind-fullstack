@@ -157,10 +157,8 @@ const HomePage = () => {
 
   return (
     <>
-      <main
-        className="h-screen w-screen pt-[52px] sm:pt-[56px] md:pt-[60px] lg:pt-[68px]"
-        id="home"
-      >
+      {/* OLD HEADER PADDING: pt-[52px] sm:pt-[56px] md:pt-[60px] lg:pt-[68px] */}
+      <main className="h-screen w-screen" id="home">
         <Popular currentSlide={currentSlide} topAnimeList={topAnimeList} />
 
         <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />

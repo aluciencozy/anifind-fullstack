@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   return (
-    <nav className="text-white flex justify-around items-center font-bold text-xl sm:text-2xl md:text-3xl">
+    <nav className="text-white flex justify-around items-center font-bold text-xl sm:text-2xl md:text-3xl relative">
       <h2 className="cursor-pointer">
         <Link to="/">
           <span className="bg-clip-text text-transparent bg-linear-to-r from-(--color-secondary) to-(--color-primary)">

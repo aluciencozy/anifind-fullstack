@@ -8,7 +8,7 @@ import SignUpPage from './pages/SignUpPage';
 function App() {
   return (
     <>
-      <header className="py-3 lg:py-4 bg-(--color-bg) w-full shadow-(--header-shadow) fixed z-10">
+      <header className="py-3 lg:py-4 bg-(--color-bg) w-full shadow-(--header-shadow) z-100 relative">
         <Header />
       </header>
 

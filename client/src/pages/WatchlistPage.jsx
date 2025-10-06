@@ -129,7 +129,7 @@ const WatchlistPage = () => {
   }, []);
 
   return (
-    <main className="h-screen w-screen pt-[100px]">
+    <main className="h-screen w-screen pt-[50px]">
       <div className="flex flex-col justify-items-center items-start pb-14 px-7 lg:px-10 xl:px-14 2xl:px-18">
         {isLoading ? (
           <div className="flex justify-center w-full">
