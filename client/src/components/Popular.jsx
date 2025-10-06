@@ -39,7 +39,7 @@ const Popular = ({ currentSlide, topAnimeList }) => {
           >
             {/* Gradient transitions */}
             <div className="absolute inset-0 gradient-overlay" />
-            <div className="absolute bottom-0 right-0 top-0 left-[30%] md:left-[40%] lg:left-[35%] gradient-overlay-sm hidden sm:block" />
+            <div className="absolute bottom-0 right-0 top-0 left-[30%] md:left-[40%] lg:left-[30%] gradient-overlay-sm hidden sm:block" />
 
             <img
               src={anime.coverImage.extraLarge}
@@ -47,7 +47,7 @@ const Popular = ({ currentSlide, topAnimeList }) => {
             />
             <img
               src={anime.bannerImage}
-              className="w-full sm:w-[70%] md:w-[60%] lg:w-[65%] h-full object-cover hidden slg:inline-block"
+              className="w-full sm:w-[70%] md:w-[60%] lg:w-[70%] h-full object-cover hidden slg:inline-block"
             />
 
             {/* Anime info section */}
