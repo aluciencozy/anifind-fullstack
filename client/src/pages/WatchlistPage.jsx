@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
 import WatchlistCard from '../components/WatchlistCard.jsx';
+import apiClient from '../apiClient';
 
 const WatchlistPage = () => {
   const watchlistDetailQuery = `
@@ -41,7 +42,7 @@ const WatchlistPage = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.get('http://localhost:5001/api/v1/watchlists', {
+      const response = await apiClient.get('/watchlists', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -92,14 +93,14 @@ const WatchlistPage = () => {
 
   const deleteFromWatchlist = async (dbId) => {
     try {
-      const response = await axios.delete(`http://localhost:5001/api/v1/watchlists/${dbId}`, {
+      const response = await apiClient.delete(`/watchlists/${dbId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       await fetchWatchlist();
-      console.log(response); // TODO: CHECK IF 204 IS RETURNED LATER
+      console.log(response);
     } catch (error) {
       console.log('Error deleting from watchlist: ', error);
     }
@@ -107,8 +108,8 @@ const WatchlistPage = () => {
 
   const updateWatchlist = async (dbId, { status, rating }) => {
     try {
-      const response = await axios.put(
-        `http://localhost:5001/api/v1/watchlists/${dbId}`,
+      const response = await apiClient.put(
+        `/watchlists/${dbId}`,
         { status, rating },
         {
           headers: {

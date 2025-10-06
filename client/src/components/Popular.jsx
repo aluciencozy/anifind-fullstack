@@ -1,12 +1,12 @@
-import axios from 'axios';
+import apiClient from '../apiClient';
 
 const Popular = ({ currentSlide, topAnimeList }) => {
   const transformSlideX = `${currentSlide * -100}%`;
 
   const addToWatchList = async (animeId) => {
     try {
-      const response = await axios.post(
-        'http://localhost:5001/api/v1/watchlists',
+      const response = await apiClient.post(
+        '/watchlists',
         {
           animeId: animeId,
         },

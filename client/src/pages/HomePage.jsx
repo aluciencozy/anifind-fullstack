@@ -5,6 +5,7 @@ import Search from '../components/Search';
 import AnimeCard from '../components/AnimeCard';
 import { BeatLoader } from 'react-spinners';
 import axios from 'axios';
+import apiClient from '../apiClient';
 
 const searchQuery = `
   query ($search: String!) {
@@ -121,8 +122,8 @@ const HomePage = () => {
 
   const addToWatchList = async (animeId) => {
     try {
-      const response = await axios.post(
-        'http://localhost:5001/api/v1/watchlists',
+      const response = await apiClient.post(
+        '/watchlists',
         {
           animeId: animeId,
         },
