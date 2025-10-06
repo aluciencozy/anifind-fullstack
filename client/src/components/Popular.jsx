@@ -46,14 +46,14 @@ const Popular = ({ currentSlide, topAnimeList }) => {
               className="w-full sm:w-[70%] md:w-[60%] h-full object-cover slg:hidden"
             />
             <img
-              src={anime.bannerImage}
+              src={anime.bannerImage ? anime.bannerImage : anime.coverImage.extraLarge}
               className="w-full sm:w-[70%] md:w-[60%] lg:w-[70%] h-full object-cover hidden slg:inline-block"
             />
 
             {/* Anime info section */}
             <div className="absolute bottom-5 left-3.5 sm:left-7 lg:left-9 xl:left-11 2xl:left-18 text-white max-w-1/2">
               <h4 className="text-shadow-lg text-xs sm:text-sm lg:text-[15px] 2xl:text-lg text-(--color-primary)">
-                #{index + 1} Popularity
+                #{index + 1} Trending
               </h4>
               <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-5xl 2xl:text-6xl font-bold text-shadow-lg mt-0.5 sm:mt-1.5 md:mt-2">
                 {anime.title.english}

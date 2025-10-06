@@ -31,8 +31,8 @@ const searchQuery = `
 
 const topAnimeQuery = `
   query {
-    Page(perPage: 10) {
-      media(sort: POPULARITY_DESC, type: ANIME) {
+    Page(perPage: 30) {
+      media(sort: TRENDING_DESC, type: ANIME) {
         id
         title {
           romaji
@@ -107,9 +107,13 @@ const HomePage = () => {
         },
       });
 
-      const animeArrayData = response.data.data.Page.media;
+      const allAnime = response.data.data.Page.media;
 
-      setTopAnimeList(animeArrayData);
+      const animeWithBanners = allAnime.filter((anime) => anime.bannerImage);
+
+      const topTenWithBanners = animeWithBanners.slice(0, 10);
+
+      setTopAnimeList(topTenWithBanners);
     } catch (error) {
       console.error(`Error fetching top rated anime: ${error}`);
     }
