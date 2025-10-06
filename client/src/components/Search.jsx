@@ -1,15 +1,12 @@
 const Search = ({ searchTerm, setSearchTerm }) => {
   return (
-    <div
-      id="search"
-      className="p-6 sm:p-12 flex flex-col justify-center items-center shrink-0"
-    >
+    <div id="search" className="p-6 sm:p-12 flex flex-col justify-center items-center shrink-0">
       <div className="border-t-(--color-bg-secondary) border-t-2 shadow-sm">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl/15 xl:text-6xl 2xl:text-7xl text-white font-extrabold text-center my-8 xl:my-16 max-w-[20ch]">
-          Find the{" "}
+          Find the{' '}
           <span className="bg-clip-text bg-linear-to-r from-(--color-secondary) to-(--color-primary) text-transparent">
             Anime
-          </span>{" "}
+          </span>{' '}
           Everyone is Talking About
         </h1>
       </div>

@@ -1,8 +1,7 @@
-import AnimeCard from '../components/AnimeCard.jsx';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
-import WatchlistCard from '../components/WatchlistCard.jsx'
+import WatchlistCard from '../components/WatchlistCard.jsx';
 
 const watchlistDetailQuery = `
   query ($ids: [Int]) {
@@ -42,27 +41,27 @@ const WatchlistPage = () => {
     try {
       const response = await axios.get('http://localhost:5001/api/v1/watchlists', {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const watchlistItems = response.data.data.watchlist;
-      const animeIds = watchlistItems.map(item => item.animeId);
+      const animeIds = watchlistItems.map((item) => item.animeId);
 
       const variables = {
-        ids: animeIds
+        ids: animeIds,
       };
 
       const body = {
         query: watchlistDetailQuery,
-        variables: variables
+        variables: variables,
       };
 
       const response2 = await axios.post('https://graphql.anilist.co', body, {
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
+          Accept: 'application/json',
+        },
       });
 
       const animeDetailsList = response2.data.data.Page.media;
@@ -70,7 +69,7 @@ const WatchlistPage = () => {
       const mergedWatchList = watchlistItems.map((item) => {
         const animeDetails = animeDetailsList.find((anime) => anime.id === item.animeId);
         return { ...item, ...animeDetails };
-      })
+      });
 
       setWatchlist(mergedWatchList);
       console.log(mergedWatchList);
@@ -86,8 +85,8 @@ const WatchlistPage = () => {
     try {
       const response = await axios.delete(`http://localhost:5001/api/v1/watchlists/${dbId}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       await fetchWatchlist();
@@ -99,13 +98,15 @@ const WatchlistPage = () => {
 
   const updateWatchlist = async (dbId, { status, rating }) => {
     try {
-      const response = await axios.put(`http://localhost:5001/api/v1/watchlists/${dbId}`,
+      const response = await axios.put(
+        `http://localhost:5001/api/v1/watchlists/${dbId}`,
         { status, rating },
         {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
         }
-      });
+      );
 
       await fetchWatchlist();
       console.log(response); // TODO: CHECK IF 201 CREATED
@@ -133,34 +134,12 @@ const WatchlistPage = () => {
           watchlist.map((anime) => {
             if (!anime.episodes) return null;
             return (
-              <WatchlistCard key={anime.id} anime={anime} deleteFromWatchlist={deleteFromWatchlist} updateWatchlist={updateWatchlist} />
-              // <div key={anime.id} className="flex flex-col gap-y-5 h-full">
-              //   <AnimeCard
-              //     title={
-              //       anime.title.english
-              //         ? anime.title.english
-              //         : anime.title.romaji
-              //     }
-              //     rating={anime.averageScore}
-              //     image={anime.coverImage.large}
-              //     format={anime.format}
-              //     episodes={anime.episodes}
-              //     duration={anime.duration}
-              //   />
-              //   {/* delete button */}
-              //   <button onClick={() => deleteFromWatchlist(anime._id)} className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer">
-              //     <i className="fas fa-bookmark"></i> Watch List
-              //   </button>
-              //   {/* status section */}
-              //   <div className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer">
-              //     <div>{anime.status}</div>
-              //     {statusOptions.map((status) => (
-              //       <div key={status} onClick={() => updateWatchlist(anime._id, status)} className="flex items-center gap-x-2">
-              //         {status}
-              //       </div>
-              //     ))}
-              //   </div>
-              // </div>
+              <WatchlistCard
+                key={anime.id}
+                anime={anime}
+                deleteFromWatchlist={deleteFromWatchlist}
+                updateWatchlist={updateWatchlist}
+              />
             );
           })
         )}

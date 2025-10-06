@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { useDebounce } from "react-use";
-import Popular from "../components/Popular";
-import Search from "../components/Search";
-import AnimeCard from "../components/AnimeCard";
-import { BeatLoader } from "react-spinners";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import { useDebounce } from 'react-use';
+import Popular from '../components/Popular';
+import Search from '../components/Search';
+import AnimeCard from '../components/AnimeCard';
+import { BeatLoader } from 'react-spinners';
+import axios from 'axios';
 
 const searchQuery = `
   query ($search: String!) {
@@ -49,22 +49,22 @@ const topAnimeQuery = `
   }
 `;
 
-const url = "https://graphql.anilist.co";
+const url = 'https://graphql.anilist.co';
 
 const HomePage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [animeSearchList, setAnimeSearchList] = useState([]);
   const [topAnimeList, setTopAnimeList] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
 
   const fetchAnimeBySearch = async () => {
     setIsLoading(true);
-    setErrorMessage("");
+    setErrorMessage('');
 
     try {
       const variables = {
@@ -74,12 +74,12 @@ const HomePage = () => {
       const body = {
         query: searchQuery,
         variables: variables,
-      }
+      };
 
       const response = await axios.post(url, body, {
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
       });
 
@@ -88,7 +88,7 @@ const HomePage = () => {
       setAnimeSearchList(animeArrayData);
     } catch (error) {
       console.error(`Error fetching anime by search: ${error}`);
-      setErrorMessage("Error fetching anime. Please try again later.");
+      setErrorMessage('Error fetching anime. Please try again later.');
     } finally {
       setIsLoading(false);
     }
@@ -98,12 +98,12 @@ const HomePage = () => {
     try {
       const body = {
         query: topAnimeQuery,
-      }
+      };
 
       const response = await axios.post(url, body, {
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
       });
 
@@ -124,10 +124,7 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const timerId = setInterval(
-      () => setCurrentSlide((prevSlide) => (prevSlide + 1) % 10),
-      4000
-    );
+    const timerId = setInterval(() => setCurrentSlide((prevSlide) => (prevSlide + 1) % 10), 4000);
 
     return () => {
       clearInterval(timerId);
@@ -159,11 +156,7 @@ const HomePage = () => {
               return (
                 <AnimeCard
                   key={anime.id}
-                  title={
-                    anime.title.english
-                      ? anime.title.english
-                      : anime.title.romaji
-                  }
+                  title={anime.title.english ? anime.title.english : anime.title.romaji}
                   rating={anime.averageScore}
                   image={anime.coverImage.extraLarge}
                   format={anime.format}

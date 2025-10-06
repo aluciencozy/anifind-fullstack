@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 * {
   scroll-behavior: smooth;
@@ -18,14 +18,14 @@ dialog::backdrop {
 }
 
 @theme {
-  --font-poppins: "Poppins", sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
 
   --breakpoint-slg: 56rem;
 
   --my-grid-cols: repeat(auto-fit, minmax(230px, 1fr));
 
-  --header-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  --header-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12);
   --modal-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 
   --color-bg: #0c1115;
@@ -37,21 +37,13 @@ dialog::backdrop {
 
 @layer utilities {
   .gradient-overlay {
-    background-image: linear-gradient(
-        to bottom,
-        transparent 80%,
-        var(--color-bg) 100%
-      ),
+    background-image: linear-gradient(to bottom, transparent 80%, var(--color-bg) 100%),
       linear-gradient(to bottom, transparent 80%, var(--color-bg) 100%),
       linear-gradient(#0c111500, #0c11158a);
   }
 
   .gradient-overlay-sm {
-    background-image: linear-gradient(
-        to bottom,
-        transparent 80%,
-        var(--color-bg) 100%
-      ),
+    background-image: linear-gradient(to bottom, transparent 80%, var(--color-bg) 100%),
       linear-gradient(to bottom, transparent 95%, var(--color-bg) 100%),
       linear-gradient(to left, transparent 95%, var(--color-bg)),
       linear-gradient(to left, transparent 80%, var(--color-bg)),
@@ -59,7 +51,7 @@ dialog::backdrop {
   }
 
   .label-form {
-      @apply text-lg font-semibold tracking-wide absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-300;
+    @apply text-lg font-semibold tracking-wide absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-300;
   }
 
   .input-form {

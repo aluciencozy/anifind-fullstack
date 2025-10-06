@@ -1,5 +1,5 @@
-import { createContext, useEffect, useState } from 'react'
-import axios from 'axios'
+import { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -14,12 +14,12 @@ export const AuthProvider = ({ children }) => {
         try {
           const response = await axios.get('http://localhost:5001/api/v1/auth/me', {
             headers: {
-              'Authorization': `Bearer ${token}`
+              Authorization: `Bearer ${token}`,
             },
           });
           setUser(response.data.data);
         } catch (error) {
-          console.log("Session expired or invalid", error);
+          console.log('Session expired or invalid', error);
           localStorage.removeItem('token');
         }
       }
@@ -27,15 +27,19 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkLoggedIn();
-  }, [])
+  }, []);
 
   const signUp = async (username, email, password) => {
     try {
-      const response = await axios.post('http://localhost:5001/api/v1/auth/sign-up', { username, email, password }, {
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await axios.post(
+        'http://localhost:5001/api/v1/auth/sign-up',
+        { username, email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      });
+      );
 
       const token = response.data.data.token;
       localStorage.setItem('token', token);
@@ -48,11 +52,15 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5001/api/v1/auth/sign-in', { email, password }, {
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await axios.post(
+        'http://localhost:5001/api/v1/auth/sign-in',
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      });
+      );
 
       const token = response.data.data.token;
       localStorage.setItem('token', token);
@@ -66,7 +74,7 @@ export const AuthProvider = ({ children }) => {
   const signOut = async () => {
     localStorage.removeItem('token');
     setUser(null);
-  }
+  };
 
   const authInfo = {
     user,
@@ -77,11 +85,7 @@ export const AuthProvider = ({ children }) => {
     signOut,
   };
 
-  return (
-    <AuthContext.Provider value={authInfo}>
-      {!isLoading && children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={authInfo}>{!isLoading && children}</AuthContext.Provider>;
 };
 
 export default AuthContext;
