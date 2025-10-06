@@ -32,7 +32,7 @@ dialog::backdrop {
   --color-bg-secondary: #11161a;
   --color-primary: #3ac86a;
   --color-secondary: #afe9c2;
-  --color-hover: #181d21;
+  --color-hover: #20262c;
 }
 
 @layer utilities {

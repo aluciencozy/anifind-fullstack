@@ -115,6 +115,26 @@ const HomePage = () => {
     }
   };
 
+  const addToWatchList = async (animeId) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5001/api/v1/watchlists',
+        {
+          animeId: animeId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error(`Error adding to watch list: ${error}`);
+    }
+  };
+
   useEffect(() => {
     fetchAnimeBySearch();
   }, [debouncedSearchTerm]);
@@ -141,7 +161,7 @@ const HomePage = () => {
 
         <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
-        <div className="grid grid-cols-(--my-grid-cols) gap-y-14 gap-x-7 lg:gap-x-10 xl:gap-x-14 2xl:gap-x-18 justify-items-center pb-14 px-7 lg:px-10 xl:px-14 2xl:px-18">
+        <div className="grid grid-cols-(--my-grid-cols) gap-y-14 gap-x-7 lg:gap-x-10 xl:gap-x-14 2xl:gap-x-18 justify-items-center pb-14 px-9 lg:px-12 xl:px-16 2xl:px-20">
           {isLoading ? (
             <div className="">
               <BeatLoader color="#3ac86a" />
@@ -161,7 +181,8 @@ const HomePage = () => {
                   image={anime.coverImage.extraLarge}
                   format={anime.format}
                   episodes={anime.episodes}
-                  duration={anime.duration}
+                  addToWatchList={addToWatchList}
+                  id={anime.id}
                 />
               );
             })

@@ -51,7 +51,7 @@ const Popular = ({ currentSlide, topAnimeList }) => {
             />
 
             {/* Anime info section */}
-            <div className="absolute bottom-0 left-3.5 sm:left-7 lg:left-9 xl:left-11 2xl:left-18 text-white max-w-1/2">
+            <div className="absolute bottom-5 left-3.5 sm:left-7 lg:left-9 xl:left-11 2xl:left-18 text-white max-w-1/2">
               <h4 className="text-shadow-lg text-xs sm:text-sm lg:text-[15px] 2xl:text-lg text-(--color-primary)">
                 #{index + 1} Popularity
               </h4>
@@ -67,7 +67,7 @@ const Popular = ({ currentSlide, topAnimeList }) => {
               ></p>
               <button
                 onClick={() => addToWatchList(anime.id)}
-                className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-2xl px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer"
+                className="text-xs sm:text-[16px] lg:text-lg 2xl:text-2xl bg-(--color-primary) rounded-sm px-3 xl:px-3.5 py-2 xl:py-2.5 font-medium mt-5 sm:mt-6 md:mt-6.5 shadow-lg cursor-pointer sm:text-base hover:shadow-[0px_0px_15px_3px_rgba(59,200,106,0.4)] duration-300 hover:scale-110 transition-all ease-in-out relative z-10"
               >
                 <i className="fas fa-bookmark"></i> Watch List
               </button>

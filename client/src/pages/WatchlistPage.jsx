@@ -3,31 +3,33 @@ import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
 import WatchlistCard from '../components/WatchlistCard.jsx';
 
-const watchlistDetailQuery = `
-  query ($ids: [Int]) {
-    Page {
-      media(id_in: $ids, type: ANIME) {
-        id
-        title {
-          romaji
-          english
-          native
-        }
-        averageScore
-        format
-        episodes
-        duration
-        bannerImage
-        coverImage {
-          large,
-          extraLarge
+const WatchlistPage = () => {
+  const watchlistDetailQuery = `
+    query ($ids: [Int]) {
+      Page {
+        media(id_in: $ids, type: ANIME) {
+          id
+          title {
+            romaji
+            english
+            native
+          }
+          averageScore
+          format
+          episodes
+          duration
+          bannerImage
+          coverImage {
+            large,
+            extraLarge
+          }
         }
       }
     }
-  }
-`;
+  `;
 
-const WatchlistPage = () => {
+  const bgColors = ['bg-[#171c20]', 'bg-[#15181f]', 'bg-[#13181e]', 'bg-[#11161a]', 'bg-[#0f1418]'];
+
   const [watchlist, setWatchlist] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -128,7 +130,7 @@ const WatchlistPage = () => {
 
   return (
     <main className="h-screen w-screen pt-[100px]">
-      <div className="flex flex-col justify-items-center pb-14 px-7 lg:px-10 xl:px-14 2xl:px-18">
+      <div className="flex flex-col justify-items-center items-start pb-14 px-7 lg:px-10 xl:px-14 2xl:px-18">
         {isLoading ? (
           <div className="flex justify-center w-full">
             <BeatLoader color="#3ac86a" />
@@ -143,16 +145,32 @@ const WatchlistPage = () => {
 
             return (
               <React.Fragment key={index}>
-                <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white mb-5">
+                <h1 className="text-2xl font-bold text-white not-first:mt-15 mb-3 relative">
                   {animeList[0].status}
                 </h1>
 
-                {animeList.map((anime) => (
+                <div
+                  className={`flex w-full items-center justify-between text-slate-300 py-4 pl-4 pr-5 bg-(--color-bg-secondary)`}
+                >
+                  <div className="flex items-center gap-x-6">
+                    <div className="w-[70px] cursor-pointer relative rounded-md" />
+                    <h2 className="text-base font-semibold">Title</h2>
+                  </div>
+
+                  <div className="grid grid-cols-3 text-center justify-items-center items-center w-[450px] h-full">
+                    <h2 className="text-base font-semibold">Rating</h2>
+                    <h2 className="text-base font-semibold">Episodes</h2>
+                    <h2 className="text-base font-semibold">Type</h2>
+                  </div>
+                </div>
+
+                {animeList.map((anime, index) => (
                   <WatchlistCard
                     key={anime.id}
                     anime={anime}
                     deleteFromWatchlist={deleteFromWatchlist}
                     updateWatchlist={updateWatchlist}
+                    bgColor={bgColors[index % bgColors.length]}
                   />
                 ))}
               </React.Fragment>

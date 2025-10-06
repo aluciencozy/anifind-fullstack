@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
+const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist, bgColor }) => {
   const dialogRef = useRef(null);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -93,12 +93,14 @@ const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
   };
 
   return (
-    <div className="flex w-full items-center justify-between bg-(--color-bg-secondary) text-white py-4 pl-4 pr-10 hover:bg-(--color-hover) transition-all duration-300">
+    <div
+      className={`flex w-full items-center justify-between ${bgColor} text-slate-300 py-4 pl-4 pr-5 hover:bg-(--color-hover) transition-all duration-300`}
+    >
       {/* Left half of the card */}
-      <div className="flex items-center gap-x-4">
+      <div className="flex items-center gap-x-6">
         <div className="w-[70px] h-[70px] cursor-pointer relative rounded-md">
           <div
-            className="w-full h-full absolute scale-105 inset-0 bg-(--color-bg-secondary) opacity-0 hover:opacity-100 z-10 rounded-md transition-all duration-300"
+            className={`w-full h-full absolute inset-0 ${bgColor} opacity-0 hover:opacity-100 z-10 rounded-sm transition-all duration-300`}
             onClick={openModal}
           >
             <i className="bx bx-edit text-2xl text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"></i>
@@ -113,8 +115,11 @@ const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
       </div>
 
       {/* Right half of the card */}
-      <div className="grid grid-cols-3 items-center text-center gap-x-15">
-        <div className="w-12">{anime.averageScore}</div>
+      <div className="grid grid-cols-3 text-center justify-items-center items-center w-[450px] h-full">
+        <div className="w-12 flex items-center gap-x-1">
+          <span className="text-(--color-primary)">★</span>
+          <span>{anime.rating}</span>
+        </div>
         <div className="w-12">{anime.episodes}</div>
         <div className="w-12">{anime.format}</div>
       </div>
@@ -122,7 +127,7 @@ const WatchlistCard = ({ anime, deleteFromWatchlist, updateWatchlist }) => {
       {/*  Dialog/Modal */}
       <dialog
         ref={dialogRef}
-        className="text-white text-lg absolute top-1/2 left-1/2 sm:w-[700px] sm:h-[500px] w-[90%] h-[600px] transform -translate-x-1/2 -translate-y-1/2 bg-(--color-bg-secondary) rounded-sm shadow-(--modal-shadow) overflow-hidden"
+        className="text-white text-lg fixed top-1/2 left-1/2 sm:w-[700px] sm:h-[500px] w-[90%] h-[600px] transform -translate-x-1/2 -translate-y-1/2 bg-(--color-bg-secondary) rounded-sm shadow-(--modal-shadow) overflow-hidden"
       >
         {/* Modal header */}
         <div className="w-full absolute">
