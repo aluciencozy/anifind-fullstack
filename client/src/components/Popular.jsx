@@ -1,4 +1,4 @@
-import apiClient from '../apiClient';
+import apiClient from '../api.js';
 
 const Popular = ({ currentSlide, topAnimeList }) => {
   const transformSlideX = `${currentSlide * -100}%`;

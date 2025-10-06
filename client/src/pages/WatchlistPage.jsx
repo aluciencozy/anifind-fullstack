@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
 import WatchlistCard from '../components/WatchlistCard.jsx';
-import apiClient from '../apiClient';
+import apiClient from '../api.js';
 
 const WatchlistPage = () => {
   const watchlistDetailQuery = `

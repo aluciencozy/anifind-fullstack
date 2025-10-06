@@ -5,7 +5,7 @@ import Search from '../components/Search';
 import AnimeCard from '../components/AnimeCard';
 import { BeatLoader } from 'react-spinners';
 import axios from 'axios';
-import apiClient from '../apiClient';
+import apiClient from '../api.js';
 
 const searchQuery = `
   query ($search: String!) {
